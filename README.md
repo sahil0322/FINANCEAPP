@@ -187,7 +187,7 @@ MongoDB
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repository-url>
+git clone <(https://github.com/sahil0322/FINANCEAPP/edit/main/)>
 ```
 
 ### 2. Navigate to the Server Directory
