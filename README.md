@@ -1,4 +1,3 @@
-````markdown
 # FinanceApp - Backend Core
 
 ![Node.js](https://img.shields.io/badge/Node.js-Backend-green)
@@ -389,11 +388,7 @@ MIT License
 
 ## Author
 
-**Your Name**
-
-* GitHub: [your-github-profile](https://github.com/your-username)
-* LinkedIn: [your-linkedin-profile](https://linkedin.com/in/your-profile)
-* Email: [your-email@example.com](mailto:your-email@example.com)
+**SAHIL KAPSE**
 
 ---
 
@@ -404,4 +399,4 @@ This project is currently under active development.
 Core backend modules such as authentication, account management, JWT authorization, and structured API utilities have been implemented. More fintech-specific features can be added in future versions.
 
 ```
-```
+
