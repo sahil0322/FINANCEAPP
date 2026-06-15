@@ -1,9 +1,9 @@
 # FinanceApp - Backend Core
 
-![Node.js](https://img.shields.io/badge/Node.js-Backend-green)
+![Node.js](https://img.shields.io/badge/Node.js-Backend-lightgreen)
 ![Express.js](https://img.shields.io/badge/Express.js-API-black)
-![MongoDB](https://img.shields.io/badge/MongoDB-Database-brightgreen)
-![JWT](https://img.shields.io/badge/Auth-JWT-blue)
+![MongoDB](https://img.shields.io/badge/MongoDB-Database-darkgreen)
+![JWT](https://img.shields.io/badge/Auth-JWT-skyblue)
 ![Status](https://img.shields.io/badge/Status-Active%20Development-orange)
 
 A scalable fintech backend system built with **Node.js**, **Express.js**, and **MongoDB**.  
