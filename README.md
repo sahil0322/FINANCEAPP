@@ -111,38 +111,73 @@ This separation keeps routing, request handling, business logic, and database op
 
 ## Project Architecture
 
+The backend follows a clean and modular folder structure with separate layers for configuration, models, controllers, services, routes, middleware, validators, and utilities.
+
 ```text
 server/
 │
-├── controllers/
-│   ├── auth.controller.js
-│   └── account.controller.js
+├── src/
+│   │
+│   ├── config/
+│   │   ├── db.js
+│   │   └── env.js
+│   │
+│   ├── models/
+│   │   ├── User.model.js
+│   │   ├── Account.model.js
+│   │   ├── Transaction.model.js
+│   │   ├── Transfer.model.js
+│   │   └── FraudAlert.model.js
+│   │
+│   ├── controllers/
+│   │   ├── auth.controller.js
+│   │   └── account.controller.js
+│   │
+│   ├── services/
+│   │   ├── auth.service.js
+│   │   └── account.service.js
+│   │
+│   ├── routes/
+│   │   ├── auth.routes.js
+│   │   └── account.routes.js
+│   │
+│   ├── middleware/
+│   │   ├── auth.middleware.js
+│   │   ├── role.middleware.js
+│   │   └── validate.middleware.js
+│   │
+│   ├── validators/
+│   │   ├── auth.validators.js
+│   │   └── account.validators.js
+│   │
+│   ├── utils/
+│   │   ├── ApiError.js
+│   │   ├── ApiResponse.js
+│   │   ├── asyncHandler.js
+│   │   └── generateToken.js
+│   │
+│   └── app.js
 │
-├── routes/
-│   ├── auth.routes.js
-│   └── account.routes.js
-│
-├── services/
-│   ├── auth.service.js
-│   └── account.service.js
-│
-├── models/
-│   ├── user.model.js
-│   └── account.model.js
-│
-├── middlewares/
-│   └── auth.middleware.js
-│
-├── utils/
-│   ├── ApiError.js
-│   ├── ApiResponse.js
-│   └── asyncHandler.js
-│
-├── server.js
-├── package.json
-└── .env
+└── server.js
 ```
 
+### Architecture Flow
+
+```text
+Request
+   ↓
+Routes
+   ↓
+Validators / Middleware
+   ↓
+Controllers
+   ↓
+Services
+   ↓
+Models
+   ↓
+MongoDB
+```
 > Note: Folder names may differ slightly depending on your actual project structure.
 
 ---
