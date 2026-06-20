@@ -4,181 +4,162 @@
 ![Express.js](https://img.shields.io/badge/Express.js-API-black)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Database-darkgreen)
 ![JWT](https://img.shields.io/badge/Auth-JWT-skyblue)
-![Status](https://img.shields.io/badge/Status-Active%20Development-orange)
+![Status](https://img.shields.io/badge/Status-v1.0%20Stable-success)
 
-A scalable fintech backend system built with **Node.js**, **Express.js**, and **MongoDB**.  
-FinanceApp provides secure authentication, account management, transaction tracking, and a structured backend architecture suitable for banking or finance-based applications.
+A scalable, enterprise-grade fintech backend system built with **Node.js**, **Express.js**, and **MongoDB**.
 
-The project was built to demonstrate a production-style backend with clean API design, secure user sessions, database-driven account handling, and reusable utility patterns.
+FinanceApp provides secure authentication, strict ledger transactions, dynamic fraud detection, analytics aggregations, and role-based admin controls suitable for banking or finance-based applications.
+
+The project was built to demonstrate a production-style backend with clean microservice-style API design, secure user sessions, and comprehensive financial data processing.
 
 ---
 
 ## Table of Contents
 
-- [Overview](#overview)
-- [Key Features](#key-features)
-- [Tech Stack](#tech-stack)
-- [Project Architecture](#project-architecture)
-- [Local Setup](#local-setup)
-- [Environment Variables](#environment-variables)
-- [Running the Server](#running-the-server)
-- [API Architecture Contracts](#api-architecture-contracts)
-  - [Authentication Gateway](#authentication-gateway)
-  - [Account Ledger Gateway](#account-ledger-gateway)
-- [Contributing](#contributing)
-- [License](#license)
-- [Author](#author)
+* [Overview](#overview)
+* [Key Features](#key-features)
+* [Tech Stack](#tech-stack)
+* [Project Architecture](#project-architecture)
+* [Local Setup](#local-setup)
+* [Environment Variables](#environment-variables)
+* [Running the Server](#running-the-server)
+* [API Architecture Contracts](#api-architecture-contracts)
+* [Future Improvements](#future-improvements)
+* [Contributing](#contributing)
+* [Author](#author)
 
 ---
 
 ## Overview
 
-FinanceApp is a backend-focused fintech application that handles core finance-related operations through REST APIs.
+FinanceApp is a complete backend-focused fintech core that handles sophisticated finance-related operations through REST APIs.
 
-It follows a clean layered architecture:
+It follows a strict layered architecture:
 
 ```text
-Router Layer  ->  Controller Layer  ->  Service Layer
-````
+Router Layer
+    ↓
+Controller Layer
+    ↓
+Service Layer
+    ↓
+Database Models
+```
 
-This separation keeps routing, request handling, business logic, and database operations organized and maintainable.
+This separation ensures routing, request validation, business logic, and database operations remain isolated, testable, and maintainable.
 
 ---
 
 ## Key Features
 
-* **Secure Authentication**
+###  Secure Authentication & RBAC
 
-  * User registration and login
-  * Password hashing using `bcryptjs`
-  * Stateless authentication using JSON Web Tokens
+* Stateless authentication using JSON Web Tokens (JWT)
+* Password hashing via bcryptjs
+* Role-Based Access Control (RBAC)
+* Protected routes using Bearer tokens
 
-* **JWT-Based Authorization**
+###  Account Ledger Management
 
-  * Protected private routes
-  * Bearer token verification
-  * Authenticated user context handling
+* Create, fetch, and soft-delete user bank accounts
+* Real-time balance aggregation
+* Strict ownership verification
+* Multi-account support
 
-* **Account Management**
+###  ACID-Compliant Transactions
 
-  * Create user bank/account records
-  * Fetch account details
-  * Update account information
-  * Soft-delete account records instead of permanent deletion
+* Secure credits and debits
+* Account-to-account transfers
+* MongoDB transaction support
+* Automatic insufficient-funds protection
 
-* **Balance Aggregation**
+###  Dynamic Fraud Detection Engine
 
-  * Supports total balance calculation across user accounts
+* Risk scoring based on transaction patterns
+* Velocity and amount-based checks
+* Suspicious transaction flagging
+* Admin review workflow
 
-* **Ownership Verification**
+###  Analytics & Data Aggregation
 
-  * Prevents users from modifying or deleting accounts that do not belong to them
+* Monthly income and expense analysis
+* Savings rate calculations
+* Category-wise spending reports
+* Dashboard-ready chart data
 
-* **Structured Error Handling**
+###  Statement Generation
 
-  * Centralized async error handling
-  * Custom `ApiError` utility
-  * Clean API responses through `ApiResponse`
+* CSV export using json2csv
+* PDF statement generation using pdfkit
+* Downloadable account reports
 
-* **Security Middleware**
+###  Security & Error Handling
 
-  * Helmet for secure HTTP headers
-  * CORS configuration for client-server communication
-
-* **Scalable Backend Design**
-
-  * Modular folder structure
-  * Router, controller, and service layer separation
-  * Suitable for future features like transaction history and fraud detection
+* Centralized error handling
+* Custom ApiError and ApiResponse utilities
+* Helmet security headers
+* CORS protection
 
 ---
 
 ## Tech Stack
 
-| Category               | Technology                             |
-| ---------------------- | -------------------------------------- |
-| Runtime                | Node.js                                |
-| Framework              | Express.js                             |
-| Database               | MongoDB Atlas                          |
-| ODM                    | Mongoose                               |
-| Authentication         | JWT                                    |
-| Password Hashing       | bcryptjs                               |
-| Security               | Helmet, CORS                           |
-| Environment Management | dotenv                                 |
-| Architecture           | REST API, Layered Backend Architecture |
+| Category       | Technology                     |
+| -------------- | ------------------------------ |
+| Runtime        | Node.js                        |
+| Framework      | Express.js                     |
+| Database       | MongoDB Atlas                  |
+| ODM            | Mongoose                       |
+| Authentication | JWT                            |
+| Security       | bcryptjs, Helmet, CORS         |
+| File Exporting | pdfkit, json2csv               |
+| Architecture   | REST API, Layered Architecture |
 
 ---
 
 ## Project Architecture
 
-The backend follows a clean and modular folder structure with separate layers for configuration, models, controllers, services, routes, middleware, validators, and utilities.
+The backend follows a clean modular folder structure:
 
 ```text
 server/
+├── .env
+├── .gitignore
+├── makeAdmin.js
+├── server.js
 │
-├── src/
-│   │
-│   ├── config/
-│   │   ├── db.js
-│   │   └── env.js
-│   │
-│   ├── models/
-│   │   ├── User.model.js
-│   │   ├── Account.model.js
-│   │   ├── Transaction.model.js
-│   │   ├── Transfer.model.js
-│   │   └── FraudAlert.model.js
-│   │
-│   ├── controllers/
-│   │   ├── auth.controller.js
-│   │   └── account.controller.js
-│   │
-│   ├── services/
-│   │   ├── auth.service.js
-│   │   └── account.service.js
-│   │
-│   ├── routes/
-│   │   ├── auth.routes.js
-│   │   └── account.routes.js
-│   │
-│   ├── middleware/
-│   │   ├── auth.middleware.js
-│   │   ├── role.middleware.js
-│   │   └── validate.middleware.js
-│   │
-│   ├── validators/
-│   │   ├── auth.validators.js
-│   │   └── account.validators.js
-│   │
-│   ├── utils/
-│   │   ├── ApiError.js
-│   │   ├── ApiResponse.js
-│   │   ├── asyncHandler.js
-│   │   └── generateToken.js
-│   │
-│   └── app.js
-│
-└── server.js
+└── src/
+    ├── app.js
+    │
+    ├── config/
+    │   ├── db.js
+    │   └── env.js
+    │
+    ├── controllers/
+    │   ├── auth.controller.js
+    │   ├── account.controller.js
+    │   ├── transaction.controller.js
+    │   ├── analytics.controller.js
+    │   ├── admin.controller.js
+    │   └── export.controller.js
+    │
+    ├── middleware/
+    │   ├── auth.middleware.js
+    │   ├── role.middleware.js
+    │   └── validate.middleware.js
+    │
+    ├── models/
+    │   ├── User.model.js
+    │   ├── Account.model.js
+    │   ├── Transaction.model.js
+    │   ├── Transfer.model.js
+    │   └── FraudAlert.model.js
+    │
+    ├── routes/
+    ├── services/
+    ├── validators/
+    └── utils/
 ```
-
-### Architecture Flow
-
-```text
-Request
-   ↓
-Routes
-   ↓
-Validators / Middleware
-   ↓
-Controllers
-   ↓
-Services
-   ↓
-Models
-   ↓
-MongoDB
-```
-> Note: Folder names may differ slightly depending on your actual project structure.
 
 ---
 
@@ -187,7 +168,7 @@ MongoDB
 ### 1. Clone the Repository
 
 ```bash
-git clone <(https://github.com/sahil0322/FINANCEAPP/edit/main/)>
+git clone https://github.com/sahil0322/FINANCEAPP.git
 ```
 
 ### 2. Navigate to the Server Directory
@@ -206,174 +187,94 @@ npm install
 
 ## Environment Variables
 
-Create a `.env` file inside the root of the `server` directory and add the following variables:
+Create a `.env` file inside the root of the server directory:
 
 ```env
 PORT=5000
 NODE_ENV=development
 MONGO_URI=your_mongodb_cluster_srv_string
-ALPHA_VANTAGE_API_KEY=your_market_data_api_key
 JWT_SECRET=your_cryptographic_signing_key_string
 JWT_EXPIRES_IN=7d
 CLIENT_URL=http://localhost:3000
 ```
 
-### Environment Variable Explanation
-
-| Variable                | Description                                                    |
-| ----------------------- | -------------------------------------------------------------- |
-| `PORT`                  | Port number on which the backend server will run               |
-| `NODE_ENV`              | Application environment, usually `development` or `production` |
-| `MONGO_URI`             | MongoDB Atlas connection string                                |
-| `ALPHA_VANTAGE_API_KEY` | API key for market/finance data integration                    |
-| `JWT_SECRET`            | Secret key used to sign JWT tokens                             |
-| `JWT_EXPIRES_IN`        | JWT token expiry duration                                      |
-| `CLIENT_URL`            | Frontend client URL allowed through CORS                       |
-
 ---
 
 ## Running the Server
-
-Start the backend server using:
 
 ```bash
 node server.js
 ```
 
-If you are using Nodemon for development, you can run:
+Development mode:
 
 ```bash
 npx nodemon server.js
-```
-
-Once the server starts successfully, it should run on:
-
-```text
-http://localhost:5000
 ```
 
 ---
 
 ## API Architecture Contracts
 
-### Authentication Gateway
+###  Authentication (`/api/auth`)
 
-Base Route:
+| Method | Endpoint  | Access | Description                       |
+| ------ | --------- | ------ | --------------------------------- |
+| POST   | /register | Public | Register a new user               |
+| POST   | /login    | Public | Authenticate user and receive JWT |
+| GET    | /me       | User   | Get authenticated user profile    |
 
-```text
-/api/auth
-```
+###  Accounts (`/api/accounts`)
 
-| HTTP Method | Resource Target | Authorization        | Execution Scope                                                                                |
-| ----------- | --------------- | -------------------- | ---------------------------------------------------------------------------------------------- |
-| POST        | `/register`     | Public               | Creates a new user, hashes the password, stores user data, and returns an authentication token |
-| POST        | `/login`        | Public               | Validates user credentials, compares hashed password, and signs a JWT if authorized            |
-| GET         | `/me`           | Private - JWT Bearer | Decodes the token, verifies user context, and returns the authenticated user profile           |
+| Method | Endpoint | Access | Description                      |
+| ------ | -------- | ------ | -------------------------------- |
+| POST   | /        | User   | Create account                   |
+| GET    | /        | User   | Fetch user accounts and balances |
 
----
+###  Transactions (`/api/transactions`)
 
-### Account Ledger Gateway
+| Method | Endpoint  | Access | Description          |
+| ------ | --------- | ------ | -------------------- |
+| POST   | /         | User   | Process credit/debit |
+| POST   | /transfer | User   | Transfer funds       |
+| GET    | /         | User   | Transaction history  |
 
-Base Route:
+###  Analytics (`/api/analytics`)
 
-```text
-/api/accounts
-```
+| Method | Endpoint  | Access | Description        |
+| ------ | --------- | ------ | ------------------ |
+| GET    | /summary  | User   | Financial overview |
+| GET    | /monthly  | User   | Monthly trends     |
+| GET    | /category | User   | Category breakdown |
 
-| HTTP Method | Resource Target | Authorization        | Execution Scope                                                      |
-| ----------- | --------------- | -------------------- | -------------------------------------------------------------------- |
-| POST        | `/`             | Private - JWT Bearer | Creates a new account record linked to the authenticated user        |
-| GET         | `/`             | Private - JWT Bearer | Fetches user accounts and supports account balance aggregation       |
-| PUT         | `/:id`          | Private - JWT Bearer | Updates account details after verifying account ownership            |
-| DELETE      | `/:id`          | Private - JWT Bearer | Performs a soft-delete by marking account state as inactive or false |
+###  Admin (`/api/admin`)
 
----
+| Method | Endpoint          | Access | Description               |
+| ------ | ----------------- | ------ | ------------------------- |
+| GET    | /stats            | Admin  | Platform statistics       |
+| GET    | /users            | Admin  | User management           |
+| PATCH  | /users/:id/status | Admin  | Suspend or activate users |
+| GET    | /fraud-alerts     | Admin  | Fraud review dashboard    |
 
-## Example API Flow
+###  Export (`/api/export`)
 
-### Register a User
-
-```http
-POST /api/auth/register
-```
-
-Example request body:
-
-```json
-{
-  "name": "John Doe",
-  "email": "john@example.com",
-  "password": "strongpassword123"
-}
-```
-
----
-
-### Login User
-
-```http
-POST /api/auth/login
-```
-
-Example request body:
-
-```json
-{
-  "email": "john@example.com",
-  "password": "strongpassword123"
-}
-```
-
----
-
-### Get Current User
-
-```http
-GET /api/auth/me
-```
-
-Required header:
-
-```http
-Authorization: Bearer <your_jwt_token>
-```
-
----
-
-### Create Account
-
-```http
-POST /api/accounts
-```
-
-Required header:
-
-```http
-Authorization: Bearer <your_jwt_token>
-```
-
-Example request body:
-
-```json
-{
-  "accountName": "Savings Account",
-  "accountType": "savings",
-  "balance": 10000
-}
-```
+| Method | Endpoint | Access | Description                     |
+| ------ | -------- | ------ | ------------------------------- |
+| GET    | /csv     | User   | Export transactions as CSV      |
+| GET    | /pdf     | User   | Export account statement as PDF |
 
 ---
 
 ## Future Improvements
 
-* Transaction history module
-* Rule-based fraud detection engine
-* Market data dashboard integration
-* Budget tracking system
-* Email notification service
-* Rate limiting for sensitive endpoints
-* API documentation using Swagger or Postman
-* Docker support for easier deployment
+* React / Next.js dashboard integration
+* Plaid API bank synchronization
+* Automated testing with Jest and Supertest
+* Real-time transaction notifications
+* Docker containerization
+* CI/CD deployment pipeline
+* Redis caching layer
+* API documentation with Swagger
 
 ---
 
@@ -381,57 +282,36 @@ Example request body:
 
 Contributions are welcome.
 
-To contribute:
-
 1. Fork the repository
-2. Create a new branch
+2. Create a feature branch
 
 ```bash
-git checkout -b feature/your-feature-name
+git checkout -b feature/amazing-feature
 ```
 
-3. Make your changes
-4. Commit your changes
+3. Commit your changes
 
 ```bash
-git commit -m "Add your meaningful commit message"
+git commit -m "Add amazing feature"
 ```
 
-5. Push to your branch
+4. Push your branch
 
 ```bash
-git push origin feature/your-feature-name
+git push origin feature/amazing-feature
 ```
 
-6. Open a Pull Request
-
-Please keep the code clean, modular, and consistent with the existing project structure.
-
----
-
-## License
-
-This project currently does not have a license.
-
-You can add one later, such as:
-
-```text
-MIT License
-```
+5. Open a Pull Request
 
 ---
 
 ## Author
 
-**SAHIL KAPSE**
+**Sahil Kapse**
+
+* GitHub: https://github.com/sahil0322
+* Email: [sahilkapse139@gmail.com]
 
 ---
 
-## Project Status
-
-This project is currently under active development.
-
-Core backend modules such as authentication, account management, JWT authorization, and structured API utilities have been implemented. More fintech-specific features can be added in future versions.
-
-```
-
+ If you found this project useful, consider giving it a star on GitHub :)
