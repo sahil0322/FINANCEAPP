@@ -1,7 +1,7 @@
 # FinanceApp - Backend Core
 
 ![Node.js](https://img.shields.io/badge/Node.js-Backend-lightgreen)
-![Express.js](https://img.shields.io/badge/Express.js-API-black)
+![Express.js](https://img.shields.io/badge/Express.js-API-red)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Database-darkgreen)
 ![JWT](https://img.shields.io/badge/Auth-JWT-skyblue)
 ![Status](https://img.shields.io/badge/Status-v1.0%20Stable-success)
