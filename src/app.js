@@ -1,5 +1,9 @@
 import authRoutes from './routes/auth.routes.js';
 import accountRoutes from './routes/account.routes.js';
+import transactionRoutes from './routes/transaction.routes.js';
+import analyticsRoutes from './routes/analytics.routes.js';
+import adminRoutes from './routes/admin.routes.js';
+import exportRoutes from './routes/export.routes.js';
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -18,6 +22,8 @@ app.use(cors({
   credentials: true,
 }));
 
+
+
 // --- Request Parsing ---
 app.use(express.json({ limit: '16kb' })); // prevents payload attacks
 app.use(express.urlencoded({ extended: true, limit: '16kb' }));
@@ -29,7 +35,11 @@ if (process.env.NODE_ENV === 'development') {
 
 // --- Routes (added in later steps) ---
 app.use('/api/auth', authRoutes);
+app.use('/api/transactions', transactionRoutes);
 app.use('/api/accounts', accountRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/export', exportRoutes);
 
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
